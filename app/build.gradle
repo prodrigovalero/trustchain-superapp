@@ -102,6 +102,8 @@ dependencies {
     implementation project(':peerchat')
     implementation project(':eurotoken')
     implementation project(':ig-ssi')
+    implementation project(':nft')
+    
     api(project(':common')){
         exclude group: 'net.java.dev.jna'
     }

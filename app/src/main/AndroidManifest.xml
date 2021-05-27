@@ -88,6 +88,10 @@
             android:parentActivityName=".ui.dashboard.DashboardActivity" />
 
         <activity
+            android:name="com.example.nft.ClientWalletActivity"
+            android:parentActivityName=".ui.dashboard.DashboardActivity" />
+
+        <activity
             android:name="com.example.musicdao.MusicService"
             android:label="Music app"
             android:parentActivityName=".ui.dashboard.DashboardActivity"
@@ -99,6 +103,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
 
         <service android:name="nl.tudelft.trustchain.app.service.TrustChainService" />
 

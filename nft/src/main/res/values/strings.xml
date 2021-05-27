@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">NFT</string>
+    <string name="Example_publick_key">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnf6JDRMxk6F4nQZqcoxfgegFU sIBfLuz//iPBiJG1B9rPJTcZv6GyPw0q1iuv0j+bTcIKzy5yiA1Wf2wczmQHaQXf WMfwoWgQ5NEDH/JmcbPk+K2b0Cxr0sV/udT0YttAzwqhHwx4xx6venci0y3qTcJ2 YLZQjylPQksX9KsaUQIDAQAB</string>
+    <string name="title_Identity"><u>Identity management</u></string>
+    <string name="title_Balance"><u>Balance management</u></string>
+    <string name="title_Content"><u>Content management</u></string>
+    <string name="curr_bal">100 coins</string>
+    <string name="username">Pablo Rodrigo</string>
+    <string name="user">Username:</string>
+    <string name="buttonVerifyIdentity">Verify Identity</string>
+    <string name="search_icon_description">Search icon</string>
+    <string name="marketplace_link">Explore the Marketplace</string>
+    <string name="createNFTButton">Create a NFT</string>
+    <string name="AddCoinsButton">Add coins</string>
+    <string name="CurrBalText">Current balance:</string>
+
+</resources>

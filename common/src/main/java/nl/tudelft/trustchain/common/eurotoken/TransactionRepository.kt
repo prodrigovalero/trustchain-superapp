@@ -18,7 +18,7 @@ import java.lang.Math.abs
 import java.math.BigInteger
 
 @OptIn(ExperimentalUnsignedTypes::class)
-class TransactionRepository(
+open class TransactionRepository(
     val trustChainCommunity: TrustChainCommunity,
     val gatewayStore: GatewayStore
 ) {
