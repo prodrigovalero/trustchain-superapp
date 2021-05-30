@@ -88,10 +88,6 @@
             android:parentActivityName=".ui.dashboard.DashboardActivity" />
 
         <activity
-            android:name="com.example.nft.ClientWalletActivity"
-            android:parentActivityName=".ui.dashboard.DashboardActivity" />
-
-        <activity
             android:name="com.example.musicdao.MusicService"
             android:label="Music app"
             android:parentActivityName=".ui.dashboard.DashboardActivity"

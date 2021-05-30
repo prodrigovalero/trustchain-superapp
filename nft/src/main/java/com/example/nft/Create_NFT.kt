@@ -1,8 +1,9 @@
 package com.example.nft
 
+import android.Manifest
 import android.app.Application
+import android.content.pm.PackageManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -10,11 +11,15 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.frostwire.jlibtorrent.*
 import com.frostwire.jlibtorrent.alerts.AddTorrentAlert
 import com.frostwire.jlibtorrent.alerts.Alert
 import com.frostwire.jlibtorrent.alerts.AlertType
 import com.frostwire.jlibtorrent.alerts.BlockFinishedAlert
+import com.frostwire.jlibtorrent.swig.*
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import nl.tudelft.ipv8.IPv8Configuration
 import nl.tudelft.ipv8.OverlayConfiguration
@@ -28,9 +33,7 @@ import nl.tudelft.ipv8.keyvault.PrivateKey
 import nl.tudelft.ipv8.keyvault.PublicKey
 import nl.tudelft.ipv8.peerdiscovery.strategy.RandomWalk
 import nl.tudelft.ipv8.sqldelight.Database
-import java.io.File
-import java.io.IOException
-import java.io.RandomAccessFile
+import java.io.*
 import java.lang.Thread.sleep
 import java.nio.channels.FileChannel
 
@@ -78,9 +81,6 @@ class Create_NFT : AppCompatActivity() {
         this.sessionActive = false
         //IPv8Android.getInstance()
 
-
-        //Start()
-
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -105,8 +105,9 @@ class Create_NFT : AppCompatActivity() {
     fun createNFT(){
         changeInfoText("in method createNFT")
         sleep(2000)
-        var hash = getTorrent(false)
-        var price = findViewById<TextView>(R.id.price) as TextView
+        var hash = createTorrent()
+        Log.i("personal", "MINE: COMEME LAS PELOTAS" + hash.toString())
+        /*var price = findViewById<TextView>(R.id.price) as TextView
         var floatPrice : Float = 0.toFloat()
         val inputTextPrice = price.text.toString()
         if (inputTextPrice != ""){
@@ -125,7 +126,7 @@ class Create_NFT : AppCompatActivity() {
         }
         else{
             buildUponNFT(hash!!, inputText.toByteArray(), floatPrice)
-        }
+        }*/
 
 
         //var hash = Sha1Hash()
@@ -208,6 +209,78 @@ class Create_NFT : AppCompatActivity() {
             }
         })
     }
+
+
+    /*
+    Creates a torrent from a file given as input
+    The extension of the file must be included (for example, .png)
+     */
+    @RequiresApi(Build.VERSION_CODES.N)
+    @Suppress("deprecation")
+    fun createTorrent(): Sha1Hash? {
+        val fileName: String?
+        var filepath = findViewById<TextView>(R.id.price) as TextView
+        val inputText = filepath.text.toString()
+        if (inputText == "") {
+            Log.i("personal", "MINE: No torrent name given, using default")
+            fileName = "Mauri.pdf"
+        } else fileName = inputText
+
+
+        val file =
+            File(applicationContext.getExternalFilesDir(null)!!.getAbsolutePath() + "/" + fileName)
+        if (!file.exists()) {
+            Log.i("personal", "MINE: File doesn't exist!")
+            return null
+        }
+
+        val fs = file_storage()
+        val l1: add_files_listener = object : add_files_listener() {
+            override fun pred(p: String): Boolean {
+                return true
+            }
+        }
+        libtorrent.add_files_ex(fs, file.absolutePath, l1, create_flags_t())
+        val ct = create_torrent(fs)
+        val l2: set_piece_hashes_listener = object : set_piece_hashes_listener() {
+            override fun progress(i: Int) {}
+        }
+
+        val ec = error_code()
+        libtorrent.set_piece_hashes_ex(ct, file.parent, l2, ec)
+        val torrent = ct.generate()
+        val buffer = torrent.bencode()
+
+        var torrentName = fileName.substringBeforeLast('.') + ".torrent"
+
+        var os: OutputStream? = null
+        try {
+            // uncomment if you want to write to the actual phone storage (needs "write" permission)
+
+            Log.i("personal", "MINE: The file will try to be written in: " + Environment.getExternalStorageDirectory().absolutePath + "/Downloads/" + torrentName )
+            Log.i("personal", "MINE: the file :" + File(Environment.getExternalStorageDirectory().absolutePath + "/Downloads/" + torrentName))
+                //os = FileOutputStream(File(Environment.getExternalStorageDirectory().absolutePath + "/Downloads/" + torrentName))
+            //Log.i("personal", "MINE: " + os)
+            Log.i("personal", "MINE: torrentName is: "+ torrentName)
+
+            var path = applicationContext.getExternalFilesDir(null)!!.getAbsolutePath()
+            Log.i("personal", "MINE: absolute path" + path)
+            var file = File(path + torrentName)
+            //os = FileOutputStream(File(applicationContext.getExternalFilesDir(null)!!.getAbsolutePath() + "/Downloads/" + torrentName))
+            file.createNewFile()
+            file.writeBytes(Vectors.byte_vector2bytes(buffer))
+            //os.write(Vectors.byte_vector2bytes(buffer), 0, Vectors.byte_vector2bytes(buffer).size)
+            Log.i("personal", "MINE: The file was written theoretically in: " + applicationContext.getExternalFilesDir(null)!!.getAbsolutePath()  + torrentName )
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+
+        val ti = TorrentInfo.bdecode(Vectors.byte_vector2bytes(buffer))
+        Log.i("personal", "MINE: before calling getTorrent")
+        return getTorrent(true)
+    }
+
     @RequiresApi(Build.VERSION_CODES.N)
     @Suppress("deprecation")
     fun getTorrent(uploadHappening: Boolean): Sha1Hash? {
@@ -239,7 +312,7 @@ class Create_NFT : AppCompatActivity() {
             changeInfoText("No torrent name given, using default")
             Log.i("personal", "No torrent name given, using default")
             //torrentName = "IMG-20210521-WA0000.jpg"
-            torrentName = "1110.2998.pdf"
+            torrentName = "Mauri.torrent"
             //return null
         } else torrentName = inputText
         Log.i("personal", "MINE: Before getting file")
@@ -247,12 +320,12 @@ class Create_NFT : AppCompatActivity() {
         // uncomment if you want to read from the actual phone storage (needs "write" permission)
 
         //var torrent = Environment.getExternalStorageDirectory().absolutePath + "/WhatsApp/Media/WhatsApp Images/" + torrentName
-        var torrentPath = Environment.getExternalStorageDirectory().absolutePath + "/Download/" + torrentName
+        //var torrentPath = Environment.getExternalStorageDirectory().absolutePath + "/Download/" + torrentName
 
         // if (uploadHappening) {
         // val torrent = Environment.getExternalStorageDirectory().absolutePath + "/" + torrentName
         // torrent =
-        //torrent = applicationContext.getExternalFilesDir(null)!!.getAbsolutePath() + "/" + torrentName
+        var torrentPath = applicationContext.getExternalFilesDir(null)!!.getAbsolutePath() + torrentName
 
         Log.i("personal", "MINE: After getting file from $torrentPath")
         // }

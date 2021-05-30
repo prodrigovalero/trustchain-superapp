@@ -4,7 +4,6 @@ import android.app.Activity
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import com.example.musicdao.MusicService
-import com.example.nft.ClientWalletActivity
 import nl.tudelft.trustchain.FOC.MainActivityFOC
 import nl.tudelft.trustchain.common.R
 import nl.tudelft.trustchain.explorer.ui.TrustChainExplorerActivity
@@ -97,11 +96,5 @@ enum class AppDefinition(
         "EuroToken",
         R.color.metallic_gold,
         EuroTokenMainActivity::class.java
-    ),
-    NFT(
-         R.drawable.ic_naruto,
-        "UniContent",
-        R.color.colorPrimaryDark,
-        ClientWalletActivity::class.java
     )
 }
