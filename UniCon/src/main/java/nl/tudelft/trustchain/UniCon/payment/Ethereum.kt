@@ -1,6 +1,4 @@
-package nl.tudelft.trustchain.TestModule.payment
-
-import nl.tudelft.trustchain.TestModule.payment.CoinAPI
+package nl.tudelft.trustchain.UniCon.payment
 
 class Ethereum : CoinAPI() {
     private var balance : Float = 0.0f

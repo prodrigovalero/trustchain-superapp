@@ -1,4 +1,4 @@
-package nl.tudelft.trustchain.TestModule
+package nl.tudelft.trustchain.UniCon
 
 import android.os.Bundle
 import android.widget.Button
@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import nl.tudelft.ipv8.android.IPv8Android
 import nl.tudelft.ipv8.attestation.trustchain.TrustChainCommunity
-import nl.tudelft.trustchain.TestModule.payment.CoinAPI
+import nl.tudelft.trustchain.UniCon.payment.CoinAPI
 
 class TransferNFT : AppCompatActivity() {
-    val PATH = "nl.tudelft.trustchain.TestModule.payment."
+    val PATH = "nl.tudelft.trustchain.UniCon.payment."
     var CLASSNAME : String? = null
     val instance = IPv8Android.getInstance()
     val community = instance.getOverlay<TrustChainCommunity>()!!
@@ -40,7 +40,7 @@ class TransferNFT : AppCompatActivity() {
         var blockHash: TextView = findViewById(R.id.blockHash)
         var hash = blockHash.text.toString()
         var info: TextView = findViewById(R.id.torrentView)
-        nl.tudelft.trustchain.TestModule.transaction.transferNFT(
+        nl.tudelft.trustchain.UniCon.transaction.transferNFT(
             hash,
             community,
             info,

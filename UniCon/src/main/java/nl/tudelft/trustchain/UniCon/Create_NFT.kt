@@ -1,4 +1,4 @@
-package nl.tudelft.trustchain.TestModule
+package nl.tudelft.trustchain.UniCon
 
 import android.os.Build
 import android.os.Bundle
@@ -22,7 +22,7 @@ import java.io.*
 import java.lang.Thread.sleep
 import java.nio.channels.FileChannel
 import kotlin.jvm.Throws
-import nl.tudelft.trustchain.TestModule.transaction.createNFT
+import nl.tudelft.trustchain.UniCon.transaction.createNFT
 
 
 @Suppress("UNCHECKED_CAST")

@@ -1,9 +1,7 @@
-package nl.tudelft.trustchain.TestModule.transaction
+package nl.tudelft.trustchain.UniCon.transaction
 
 import android.os.Build
 import android.util.Log
-import android.widget.CheckBox
-import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.frostwire.jlibtorrent.Sha1Hash
@@ -11,7 +9,6 @@ import nl.tudelft.ipv8.attestation.trustchain.ANY_COUNTERPARTY_PK
 import nl.tudelft.ipv8.attestation.trustchain.EMPTY_PK
 import nl.tudelft.ipv8.attestation.trustchain.TrustChainBlock
 import nl.tudelft.ipv8.attestation.trustchain.TrustChainCommunity
-import nl.tudelft.trustchain.TestModule.payment.CoinAPI
 
 val BLOCK_TYPE_CREATE_CONTENT = "create_content"
 val BLOCK_TYPE_OPEN_TO_SELL_CONTENT = "sellable_content"

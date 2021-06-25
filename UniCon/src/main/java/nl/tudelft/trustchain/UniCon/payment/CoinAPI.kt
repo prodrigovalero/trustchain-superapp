@@ -1,4 +1,4 @@
-package nl.tudelft.trustchain.TestModule.payment
+package nl.tudelft.trustchain.UniCon.payment
 
 abstract class CoinAPI {
     abstract fun addCoins()

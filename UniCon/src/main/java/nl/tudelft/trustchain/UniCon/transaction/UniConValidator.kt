@@ -1,4 +1,4 @@
-package nl.tudelft.trustchain.TestModule.transaction
+package nl.tudelft.trustchain.UniCon.transaction
 
 import android.util.Log
 import nl.tudelft.ipv8.attestation.trustchain.TrustChainBlock
